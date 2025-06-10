@@ -6,7 +6,7 @@ export default function Home() {
 	return (
 		<View style={styles.container}>
 			<Image source={require('@/assets/logo.png')} style={styles.logo} />
-			<Button>Adicionar</Button>
+			<Button title='Adicionar' activeOpacity={0.7} />
 		</View>
 	);
 }
