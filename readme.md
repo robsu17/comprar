@@ -51,7 +51,7 @@ Siga os passos abaixo para rodar o projeto em sua máquina:
 
 ```bash
 # 1. Clone o repositório
-git clone [https://github.com/seu-usuario/nome-do-repositorio.git](https://github.com/seu-usuario/nome-do-repositorio.git)
+git clone [https://github.com/robsu17/comprar.git](https://github.com/robsu17/comprar.git)
 
 # 2. Acesse a pasta do projeto
 cd nome-do-repositorio
