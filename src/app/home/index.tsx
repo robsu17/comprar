@@ -5,18 +5,13 @@ import { Input } from '@/components/Input';
 import { Filter } from '@/components/Filter';
 import { FilterStatus } from '@/types/FilterStatus';
 import { Item, ItemData } from '@/components/Item';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { itemsStorage } from '@/storage/items-storage';
 
 const FILTER_STATUS: FilterStatus[] = [
 	FilterStatus.DONE,
 	FilterStatus.PENDING,
 ];
-
-const ITEMS: ItemData[] = [
-	{ status: FilterStatus.DONE, description: "1 pacote de café" },
-	{ status: FilterStatus.PENDING, description: "3 pacotes de macarrão" },
-	{ status: FilterStatus.PENDING, description: "3 cebolas" },
-]
 
 export default function Home() {
 	const [filterStatus, setFilterStatus] = useState<FilterStatus>(FilterStatus.DONE)
@@ -26,14 +21,14 @@ export default function Home() {
 		description: ""
 	})
 
-	const handleAddItem = () => {
+	const handleAddItem = async () => {
 		if (!item.description.trim()) {
 			return Alert.alert("Adicionar", "Informe a descrição do item")
 		}
 
-		setItem(prev => ({ ...prev, id: Math.random().toString(36).substring(2) }))
-		setCompras(prev => [...prev, item])
-		setItem(prev => ({ ...prev, description: "" }))
+		await itemsStorage.add(item)
+		await getItems()
+		clearDescription()
 	}
 
 	const handleRemove = () => {
@@ -43,13 +38,35 @@ export default function Home() {
 	const handleStatus = (item: ItemData) => {
 	}
 
+	async function getItems() {
+		try {
+			const items = await itemsStorage.get()
+			console.log(items)
+			setCompras(items)
+		} catch (error) {
+			console.log(error)
+			Alert.alert("Ops...", "Não foi possível filtrar os itens.")
+		}
+	}
+
+	const clearDescription = () => {
+		setItem(({
+			status: FilterStatus.PENDING,
+			description: ""
+		}))
+	}
+
+	useEffect(() => {
+		getItems()
+	}, [])
+
 	return (
 		<View style={styles.container}>
 			<Image source={require('@/assets/logo.png')} style={styles.logo} />
 
 			<View style={styles.form}>
-				<Input 
-					placeholder='O que você precisa comprar?' 
+				<Input
+					placeholder='O que você precisa comprar?'
 					onChangeText={(description) => setItem(prev => ({ ...prev, description }))}
 					value={item.description}
 				/>
@@ -60,9 +77,9 @@ export default function Home() {
 				<View style={styles.header}>
 					{
 						FILTER_STATUS.map((item, index) => (
-							<Filter 
-								key={index} 
-								status={item} 
+							<Filter
+								key={index}
+								status={item}
 								isActive={item === filterStatus}
 								onPress={() => setFilterStatus(item)}
 							/>
