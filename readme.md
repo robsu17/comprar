@@ -1,6 +1,6 @@
 # App Lista de Compras 🛒
 
-![Demo do App](URL_PARA_SEU_GIF_OU_IMAGEM_AQUI)
+![Demo do App](.github/assets/compras-app.png)
 
 > Status: Concluído ✔️
 
