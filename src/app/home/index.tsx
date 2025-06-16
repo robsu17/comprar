@@ -20,7 +20,7 @@ export default function Home() {
 	const [item, setItem] = useState<ItemData>({
 		status: FilterStatus.PENDING,
 		description: "",
-		id: Math.random().toString(32)
+		id: ""
 	})
 
 	const handleAddItem = async () => {
@@ -28,6 +28,7 @@ export default function Home() {
 			return Alert.alert("Adicionar", "Informe a descrição do item")
 		}
 
+		setItem(prev => ({ ...prev, id: Math.random().toString(32) }))
 		await itemsStorage.add(item)
 		await itemsByStatus()
 		clearDescription()
@@ -63,8 +64,14 @@ export default function Home() {
 		}
 	}
 
-	const handleStatus = (item: ItemData) => {
-
+	const handleStatus = async (id: string) => {
+		try {
+			await itemsStorage.toogleStatus(id)
+			await itemsByStatus()
+		} catch (error) {
+			console.log(error)
+			Alert.alert("Status", "Não foi possível mudar o status.")
+		}
 	}
 
 	async function itemsByStatus() {
@@ -131,7 +138,7 @@ export default function Home() {
 							key={index}
 							data={item}
 							onRemove={() => handleRemove(item.id || "")}
-							onStatus={() => handleStatus(item)}
+							onStatus={() => handleStatus(item.id || "")}
 						/>
 					)}
 				/>
