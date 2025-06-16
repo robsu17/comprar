@@ -54,7 +54,7 @@ Siga os passos abaixo para rodar o projeto em sua máquina:
 git clone https://github.com/robsu17/comprar.git
 
 # 2. Acesse a pasta do projeto
-cd nome-do-repositorio
+cd comprar
 
 # 3. Instale as dependências
 npm install
