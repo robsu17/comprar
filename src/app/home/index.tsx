@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, View, Text, ScrollView, FlatList, Alert } from 'react-native';
+import { Image, TouchableOpacity, View, Text, FlatList, Alert } from 'react-native';
 import { styles } from './styles';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -7,7 +7,6 @@ import { FilterStatus } from '@/types/FilterStatus';
 import { Item, ItemData } from '@/components/Item';
 import React, { useEffect, useState } from 'react';
 import { itemsStorage } from '@/storage/items-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FILTER_STATUS: FilterStatus[] = [
 	FilterStatus.DONE,
