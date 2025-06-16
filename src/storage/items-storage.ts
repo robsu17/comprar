@@ -5,7 +5,7 @@ import { FilterStatus } from "@/types/FilterStatus"
 const ITEMS_STORAGE_KEY = "@comprar:items"
 
 export type ItemStorage = {
-    id?: string;
+    id: string;
     status: FilterStatus
     description: string;
 }
@@ -39,9 +39,25 @@ async function add(newItem: ItemStorage): Promise<ItemStorage[]> {
     return updatedItems
 }
 
+async function remove(id: string): Promise<void> {
+    const items = await get()
+    const updatedItems = items.filter((item) => item.id !== id)
+    await save(updatedItems)
+}
+
+async function clear(): Promise<void> {
+    try {
+        AsyncStorage.removeItem(ITEMS_STORAGE_KEY)
+    } catch (error) {
+        throw new Error("ITEMS_CLEAR: " + error)
+    }
+}
+
 export const itemsStorage = {
     get,
     getByStatus,
     save,
-    add
+    add,
+    remove,
+    clear
 }

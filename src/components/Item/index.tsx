@@ -6,7 +6,7 @@ import { StatusIcon } from '@/components/StatusIcon'
 import { FilterStatus } from '@/types/FilterStatus'
 
 export type ItemData = {
-    id?: string;
+    id: string;
     status: FilterStatus;
     description: string;
 }
